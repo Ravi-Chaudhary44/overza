@@ -166,7 +166,7 @@ const Register = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-cricket-green focus:border-transparent"
-                  placeholder="+91 9876543210"
+                  placeholder="**********"
                 />
               </div>
             </div>
@@ -201,5 +201,6 @@ const Register = () => {
     </div>
   );
 };
+
 
 export default Register;
