@@ -30,20 +30,24 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (email, password) => {
-    try {
-      const response = await api.post('/auth/login', { email, password });
-      const { token, user } = response.data;
-      
-      localStorage.setItem('token', token);
-      setUser(user);
-      toast.success('Login successful!');
-      return { success: true };
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed');
-      return { success: false, error: error.response?.data?.message };
-    }
-  };
+ const login = async (email, password) => {
+  try {
+    const response = await api.post('/auth/login', { email, password });
+    const { token, user } = response.data;
+    
+    localStorage.setItem('token', token);
+    setUser(user);
+    toast.success('Login successful!');
+    return { success: true };
+  } catch (error) {
+    toast.error(error.response?.data?.message || 'Login failed');
+   
+    return { 
+      success: false, 
+      error: error.response?.data?.message || 'Login failed' 
+    };
+  }
+};
 
   const register = async (userData) => {
     try {
@@ -79,4 +83,5 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+
 };
