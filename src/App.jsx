@@ -17,8 +17,77 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import './styles/App.css';
 import './styles/tailwind.css';
-
+import AnimatedCircleImage from './components/common/AnimatedCircleImage';
+import logo from './assets/images/og-image.png';
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+   
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500); 
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  
+  const LoadingScreen = () => (
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800">
+      <div className="relative">
+        <AnimatedCircleImage
+          src={logo}
+          alt="OverZa Logo"
+          size={150}
+          borderWidth={4}
+          colors={["#22c55e", "#b806d4"]}
+          rotationDuration={3}
+          showGlow={true}
+          intensity={0.6}
+          className="mb-8"
+          imageClassName="p-3"
+        />
+        <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-purple-500 rounded-full border-2 border-gray-800"></div>
+      </div>
+      
+      <div className="text-center">
+        <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+          Over<span className="text-green-500">Za</span>
+        </h1>
+        <p className="text-gray-300 text-lg font-medium tracking-wider">
+          CRICKET SCORER
+        </p>
+      </div>
+
+      
+      <div className="mt-10 flex space-x-2">
+        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
+        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+      </div>
+
+    
+      <div className="mt-8 w-48 md:w-64 h-2 bg-gray-700 rounded-full overflow-hidden">
+        <div 
+          className="h-full bg-gradient-to-r from-green-500 to-purple-600 rounded-full"
+          style={{
+            animation: 'loadingBar 2s ease-in-out forwards'
+          }}
+        ></div>
+      </div>
+
+      <style>{`
+        @keyframes loadingBar {
+          0% { width: 0%; }
+          100% { width: 100%; }
+        }
+      `}</style>
+    </div>
+  );
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
   return (
     <Router>
       <ThemeProvider>
@@ -69,5 +138,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;
