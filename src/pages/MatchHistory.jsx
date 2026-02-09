@@ -54,16 +54,20 @@ const MatchHistory = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      setMatches(response.data.matches);
+      setMatches(response.data.matches || []);
+
       setTotalPages(response.data.pages || 1);
       
       // Calculate stats
-      const stats = {
-        total: response.data.total || 0,
-        completed: response.data.matches.filter(m => m.status === 'completed').length,
-        live: response.data.matches.filter(m => m.status === 'live').length,
-        upcoming: response.data.matches.filter(m => m.status === 'upcoming').length
-      };
+     const safeMatches = response.data.matches || [];
+
+setStats({
+  total: response.data.total || 0,
+  completed: safeMatches.filter(m => m.status === 'completed').length,
+  live: safeMatches.filter(m => m.status === 'live').length,
+  upcoming: safeMatches.filter(m => m.status === 'upcoming').length
+});
+
       setStats(stats);
     } catch (error) {
       console.error('Failed to fetch matches:', error);
@@ -260,5 +264,6 @@ const MatchHistory = () => {
     </div>
   );
 };
+
 
 export default MatchHistory;
