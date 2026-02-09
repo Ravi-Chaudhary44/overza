@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { FaHistory, FaTrophy, FaCalendar, FaFilter, FaSearch } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
-import LoadingSpinner from '../components/common/LoadingSpinner'; 
+import LoadingSpinner from '../components/common/LoadingSpinner';
 import MatchCard from '../components/match/MatchCard';
 
 const MatchHistory = () => {
@@ -27,7 +27,7 @@ const MatchHistory = () => {
   }, [page, filter]);
 
   useEffect(() => {
-  
+   
     const filtered = matches.filter(match => {
       const searchLower = searchTerm.toLowerCase();
       return (
@@ -39,98 +39,40 @@ const MatchHistory = () => {
     });
     setFilteredMatches(filtered);
   }, [searchTerm, matches]);
-  useEffect(() => {
-  testApiConnection();
-}, []);
-const testApiConnection = async () => {
-  try {
-    console.log('=== Testing API Connection ===');
-    
-   
-    const testResponse = await fetch('/api/matches/health');
-    console.log('Health check:', await testResponse.json());
-    
-    const token = localStorage.getItem('token');
-    console.log('Token exists:', !!token);
-    
-    if (token) {
-      const authResponse = await axios.get('/api/matches?page=1&limit=5', {
+
+  const fetchMatches = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: '12',
+        status: filter === 'all' ? '' : filter
+      });
+
+      const response = await axios.get(`/api/matches?${params.toString()}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      console.log('Auth test response:', authResponse.data);
-    }
-  } catch (error) {
-    console.error('API test failed:', error);
-  }
-};
-const fetchMatches = async () => {
-  setLoading(true);
-  try {
-    const token = localStorage.getItem('token');
-    const params = new URLSearchParams({
-      page: page.toString(),
-      limit: '12',
-      status: filter === 'all' ? '' : filter
-    });
 
-    console.log('Fetching matches with params:', params.toString());
-    
-    const response = await axios.get(`/api/matches?${params.toString()}`, {
-      headers: { Authorization: `Bearer ${token}` },
-      timeout: 10000 
-    });
-
-    console.log('Full response:', response);
-    console.log('Response data:', response.data);
-    console.log('Response status:', response.status);
-    
-   
-    if (!response.data) {
-      throw new Error('Empty response from server');
-    }
-    
-  
-    if (response.data.success === false) {
-      throw new Error(response.data.message || 'Request failed');
-    }
-    
-    
-    const matchesArray = Array.isArray(response.data.matches) 
-      ? response.data.matches 
-      : [];
-    
-    setMatches(matchesArray);
-    setTotalPages(response.data.pages || 1);
-    
-    if (response.data.stats && typeof response.data.stats === 'object') {
-      setStats(response.data.stats);
-    } else {
-   
-      setStats({
+      setMatches(response.data.matches);
+      setTotalPages(response.data.pages || 1);
+      
+      // Calculate stats
+      const stats = {
         total: response.data.total || 0,
-        completed: matchesArray.filter(m => m.status === 'completed').length,
-        live: matchesArray.filter(m => m.status === 'live').length,
-        upcoming: matchesArray.filter(m => m.status === 'upcoming').length
-      });
+        completed: response.data.matches.filter(m => m.status === 'completed').length,
+        live: response.data.matches.filter(m => m.status === 'live').length,
+        upcoming: response.data.matches.filter(m => m.status === 'upcoming').length
+      };
+      setStats(stats);
+    } catch (error) {
+      console.error('Failed to fetch matches:', error);
+      setMatches([]);
+      setStats({ total: 0, completed: 0, live: 0, upcoming: 0 });
+    } finally {
+      setLoading(false);
     }
-     
-  } catch (error) {
-    console.error('Failed to fetch matches:', error);
-    console.error('Error details:', {
-      message: error.message,
-      response: error.response?.data,
-      status: error.response?.status,
-      config: error.config?.url
-    });
-    
-    setMatches([]);
-    setStats({ total: 0, completed: 0, live: 0, upcoming: 0 });
-    
-   
-  } finally {
-    setLoading(false);
-  }
-};;
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -318,9 +260,4 @@ const fetchMatches = async () => {
   );
 };
 
-
 export default MatchHistory;
-
-
-
-
