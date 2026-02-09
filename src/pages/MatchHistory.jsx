@@ -39,7 +39,30 @@ const MatchHistory = () => {
     });
     setFilteredMatches(filtered);
   }, [searchTerm, matches]);
-
+  useEffect(() => {
+  testApiConnection();
+}, []);
+const testApiConnection = async () => {
+  try {
+    console.log('=== Testing API Connection ===');
+    
+   
+    const testResponse = await fetch('/api/matches/health');
+    console.log('Health check:', await testResponse.json());
+    
+    const token = localStorage.getItem('token');
+    console.log('Token exists:', !!token);
+    
+    if (token) {
+      const authResponse = await axios.get('/api/matches?page=1&limit=5', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      console.log('Auth test response:', authResponse.data);
+    }
+  } catch (error) {
+    console.error('API test failed:', error);
+  }
+};
 const fetchMatches = async () => {
   setLoading(true);
   try {
@@ -297,6 +320,7 @@ const fetchMatches = async () => {
 
 
 export default MatchHistory;
+
 
 
 
