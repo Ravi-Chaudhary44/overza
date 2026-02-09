@@ -68,7 +68,7 @@ setStats({
   upcoming: safeMatches.filter(m => m.status === 'upcoming').length
 });
 
-      setStats(stats);
+     
     } catch (error) {
       console.error('Failed to fetch matches:', error);
       
@@ -267,3 +267,4 @@ setStats({
 
 
 export default MatchHistory;
+
