@@ -41,43 +41,58 @@ const MatchHistory = () => {
   }, [searchTerm, matches]);
 
   const fetchMatches = async () => {
-    setLoading(true);
-    try {
-      const token = localStorage.getItem('token');
-      const params = new URLSearchParams({
-        page: page.toString(),
-        limit: '12',
-        status: filter === 'all' ? '' : filter
+  setLoading(true);
+  try {
+    const token = localStorage.getItem('token');
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: '12',
+      status: filter === 'all' ? '' : filter
+    });
+
+    console.log('Fetching matches with params:', params.toString());
+    
+    const response = await axios.get(`/api/matches?${params.toString()}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    console.log('Response received:', {
+      success: response.data.success,
+      matchesCount: response.data.matches?.length,
+      total: response.data.total,
+      pages: response.data.pages,
+      stats: response.data.stats
+    });
+
+    setMatches(response.data.matches || []);
+    setTotalPages(response.data.pages || 1);
+    
+
+    if (response.data.stats) {
+      setStats(response.data.stats);
+    } else {
+    
+      const safeMatches = response.data.matches || [];
+      setStats({
+        total: response.data.total || 0,
+        completed: safeMatches.filter(m => m.status === 'completed').length,
+        live: safeMatches.filter(m => m.status === 'live').length,
+        upcoming: safeMatches.filter(m => m.status === 'upcoming').length
       });
-
-      const response = await axios.get(`/api/matches?${params.toString()}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      setMatches(response.data.matches || []);
-
-      setTotalPages(response.data.pages || 1);
-      
-      // Calculate stats
-     const safeMatches = response.data.matches || [];
-
-setStats({
-  total: response.data.total || 0,
-  completed: safeMatches.filter(m => m.status === 'completed').length,
-  live: safeMatches.filter(m => m.status === 'live').length,
-  upcoming: safeMatches.filter(m => m.status === 'upcoming').length
-});
-
-     
-    } catch (error) {
-      console.error('Failed to fetch matches:', error);
-      
-      setMatches([]);
-      setStats({ total: 0, completed: 0, live: 0, upcoming: 0 });
-    } finally {
-      setLoading(false);
     }
-  };
+     
+  } catch (error) {
+    console.error('Failed to fetch matches:', error);
+    console.error('Error response:', error.response?.data);
+    
+    setMatches([]);
+    setStats({ total: 0, completed: 0, live: 0, upcoming: 0 });
+    
+  
+  } finally {
+    setLoading(false);
+  }
+};
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -267,4 +282,5 @@ setStats({
 
 
 export default MatchHistory;
+
 
