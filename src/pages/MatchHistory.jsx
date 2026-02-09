@@ -40,7 +40,7 @@ const MatchHistory = () => {
     setFilteredMatches(filtered);
   }, [searchTerm, matches]);
 
-  const fetchMatches = async () => {
+const fetchMatches = async () => {
   setLoading(true);
   try {
     const token = localStorage.getItem('token');
@@ -53,46 +53,61 @@ const MatchHistory = () => {
     console.log('Fetching matches with params:', params.toString());
     
     const response = await axios.get(`/api/matches?${params.toString()}`, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
+      timeout: 10000 
     });
 
-    console.log('Response received:', {
-      success: response.data.success,
-      matchesCount: response.data.matches?.length,
-      total: response.data.total,
-      pages: response.data.pages,
-      stats: response.data.stats
-    });
-
-    setMatches(response.data.matches || []);
+    console.log('Full response:', response);
+    console.log('Response data:', response.data);
+    console.log('Response status:', response.status);
+    
+   
+    if (!response.data) {
+      throw new Error('Empty response from server');
+    }
+    
+  
+    if (response.data.success === false) {
+      throw new Error(response.data.message || 'Request failed');
+    }
+    
+    
+    const matchesArray = Array.isArray(response.data.matches) 
+      ? response.data.matches 
+      : [];
+    
+    setMatches(matchesArray);
     setTotalPages(response.data.pages || 1);
     
-
-    if (response.data.stats) {
+    if (response.data.stats && typeof response.data.stats === 'object') {
       setStats(response.data.stats);
     } else {
-    
-      const safeMatches = response.data.matches || [];
+   
       setStats({
         total: response.data.total || 0,
-        completed: safeMatches.filter(m => m.status === 'completed').length,
-        live: safeMatches.filter(m => m.status === 'live').length,
-        upcoming: safeMatches.filter(m => m.status === 'upcoming').length
+        completed: matchesArray.filter(m => m.status === 'completed').length,
+        live: matchesArray.filter(m => m.status === 'live').length,
+        upcoming: matchesArray.filter(m => m.status === 'upcoming').length
       });
     }
      
   } catch (error) {
     console.error('Failed to fetch matches:', error);
-    console.error('Error response:', error.response?.data);
+    console.error('Error details:', {
+      message: error.message,
+      response: error.response?.data,
+      status: error.response?.status,
+      config: error.config?.url
+    });
     
     setMatches([]);
     setStats({ total: 0, completed: 0, live: 0, upcoming: 0 });
     
-  
+   
   } finally {
     setLoading(false);
   }
-};
+};;
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -282,5 +297,6 @@ const MatchHistory = () => {
 
 
 export default MatchHistory;
+
 
 
