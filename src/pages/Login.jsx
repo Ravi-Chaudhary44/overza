@@ -201,12 +201,6 @@ const Login = () => {
               </Link>
             </p>
           </div>
-
-          <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-center text-gray-500 dark:text-gray-400 text-sm">
-              By signing in, you agree to our Terms of Service and Privacy Policy
-            </p>
-          </div>
         </div>
       </motion.div>
     </div>
@@ -214,3 +208,4 @@ const Login = () => {
 };
 
 export default Login;
+
