@@ -18,9 +18,34 @@ const Navbar = () => {
     navigate('/');
     setIsProfileMenuOpen(false);
   };
-
+const RunningNavMessage = () => {
+  return (
+    <div className="relative w-full overflow-hidden bg-yellow-400 dark:bg-yellow-600">
+      <motion.div
+        initial={{ x: "100%" }}
+        animate={{ x: "-100%" }}
+        transition={{
+          repeat: Infinity,
+          duration: 10, 
+          ease: "linear",
+        }}
+        className="
+          whitespace-nowrap
+          py-2
+          px-4
+          text-xs sm:text-sm
+          font-semibold
+          text-black
+        "
+      >
+        🚧 Overza is under active development — some features may not work properly.
+      </motion.div>
+    </div>
+  );
+};
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 z-50">
+      <RunningNavMessage />
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
          
@@ -254,3 +279,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
