@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import AnimatedCircleImage from '../common/AnimatedCircleImage'; 
 import logo from '../../assets/images/og-image.png';
+import { motion } from 'framer-motion';//abhi()
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -279,4 +280,5 @@ const RunningNavMessage = () => {
 };
 
 export default Navbar;
+
 
