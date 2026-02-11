@@ -3,6 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaBaseballBall, FaUser, FaEnvelope, FaLock, FaPhone } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';        
+import GlassButton from '../components/common/GlassButton';
+import GlassWrapper from '../components/layout/GlassWrapper'; 
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +18,7 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
-
+const { isDarkMode } = useTheme();
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -58,7 +61,12 @@ const Register = () => {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8">
+        <GlassWrapper
+          variant={isDarkMode ? 'card' : 'light'} 
+          rounded="3xl"
+          padding="p-8"
+          className="shadow-2xl"
+        >
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-cricket-green/10 rounded-full mb-4">
               <FaBaseballBall className="text-3xl text-cricket-green" />
@@ -171,13 +179,18 @@ const Register = () => {
               </div>
             </div>
 
-            <button
+             <GlassButton
               type="submit"
+              variant="primary"
+              size="lg"
+              fullWidth
               disabled={isLoading}
-              className="w-full bg-cricket-green hover:bg-cricket-darkGreen text-white py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-cricket-green hover:bg-cricket-darkGreen border-none shadow-lg"
+               glow
+  glowColor="rgba(9, 255, 0, 0.5)" 
             >
               {isLoading ? 'Creating Account...' : 'Create Account'}
-            </button>
+            </GlassButton>
           </form>
 
          
@@ -196,7 +209,7 @@ const Register = () => {
     Contact administrator for scoring privileges.
   </p>
 </div>
-        </div>
+        </GlassWrapper>
       </motion.div>
     </div>
   );
@@ -204,3 +217,4 @@ const Register = () => {
 
 
 export default Register;
+
