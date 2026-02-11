@@ -3,17 +3,20 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaBaseballBall, FaEye, FaUsers, FaMapMarkerAlt } from 'react-icons/fa';
 
-const MatchCard = ({ match }) => {
+const MatchCard = ({ match,glow = false  }) => {
   if (!match) return null;
   
   const currentScore = match.currentScore || { runs: 0, wickets: 0, oversFormatted: '0.0' };
   const isLive = match.status === 'live';
   const isCompleted = match.status === 'completed';
-  
+  const glowColor = 'rgba(255,111,97,0.5)';
+  const glowClasses = glow
+    ? 'hover:shadow-[0_0_15px_${glowColor}] hover:border-coral-bright/50'
+    : '';
   return (
     <motion.div
       whileHover={{ y: -5 }}
-      className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300"
+      className={`bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300  ${glowClasses}  `}
     >
       {/* Match Status Badge */}
       <div className="px-4 pt-4">
@@ -147,5 +150,6 @@ const MatchCard = ({ match }) => {
     </motion.div>
   );
 };
+
 
 export default MatchCard;
