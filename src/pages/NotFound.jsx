@@ -129,20 +129,11 @@ const NotFound = () => {
               </div>
             </div>
           </div>
-
-          {/* Footer */}
-          <div className="bg-gray-50 dark:bg-gray-700/50 p-6 text-center">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Still lost? Contact support at{' '}
-              <a href="mailto:support@Overza.com" className="text-cricket-green hover:underline">
-                support@Overza.com
-              </a>
-            </p>
-          </div>
         </div>
       </motion.div>
     </div>
   );
 };
+
 
 export default NotFound;
