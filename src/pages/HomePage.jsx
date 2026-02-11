@@ -6,6 +6,9 @@ import { useAuth } from '../context/AuthContext';
 import { useMatch } from '../context/MatchContext';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import MatchCard from '../components/match/MatchCard';
+import GlassButton from '../components/common/GlassButton';
+import GlassWrapper from '../components/layout/GlassWrapper';
+
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -17,8 +20,6 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white dark:from-gray-900 dark:to-gray-800">
-      {/* Hero Section */}
       <div className="container mx-auto px-4 py-8">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -38,34 +39,55 @@ const HomePage = () => {
           
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             {user ? (
-              <button
-                onClick={() => navigate('/scorer')}
-                className="bg-cricket-green hover:bg-cricket-darkGreen text-white px-8 py-3 rounded-full font-semibold text-lg flex items-center transition-all duration-300 transform hover:scale-105"
-              >
-                <FaPlay className="mr-2" /> Start New Match
-              </button>
+              <GlassButton
+              onClick={() => navigate('/scorer')}
+              variant="primary"
+              size="lg"
+              icon={FaPlay}
+              iconPosition="left"
+              className="bg-cricket-green hover:bg-cricket-darkGreen border-none"
+               glow={true} 
+            >
+              Start New Match
+            </GlassButton>
             ) : (
-              <button
-                onClick={() => navigate('/login')}
-                className="bg-cricket-green hover:bg-cricket-darkGreen text-white px-8 py-3 rounded-full font-semibold text-lg flex items-center transition-all duration-300 transform hover:scale-105"
-              >
-                <FaPlay className="mr-2" /> Login to Score
-              </button>
+             <GlassButton
+              onClick={() => navigate('/login')}
+              variant="primary"
+              size="lg"
+              icon={FaPlay}
+              iconPosition="left"
+              className="bg-cricket-green hover:bg-cricket-darkGreen border-none"
+               glow
+  glowColor="rgba(9, 255, 0, 0.5)" 
+            >
+              Login to Score
+            </GlassButton>
             )}
             
-            <Link
-              to="/live"
-              className="bg-cricket-blue hover:bg-cricket-darkBlue text-white px-8 py-3 rounded-full font-semibold text-lg flex items-center transition-all duration-300 transform hover:scale-105"
-            >
-              <FaEye className="mr-2" /> Watch Live Match
-            </Link>
             
-            <Link
-              to="/history"
-              className="bg-gray-800 hover:bg-black dark:bg-gray-700 dark:hover:bg-gray-800 text-white px-8 py-3 rounded-full font-semibold text-lg flex items-center transition-all duration-300 transform hover:scale-105"
-            >
-              <FaHistory className="mr-2" /> Match History
-            </Link>
+          <GlassButton
+            to="/live"
+            variant="secondary"
+            size="lg"
+            icon={FaEye}
+            iconPosition="left"
+            className="bg-cricket-blue hover:bg-cricket-darkBlue border-none text-white"
+            glow
+  glowColor="rgba(255, 0, 225, 0.5)" 
+          >
+            Watch Live Match
+          </GlassButton>
+             <GlassButton
+            to="/history"
+            variant="dark"
+            size="lg"
+            icon={FaHistory}
+            iconPosition="left"
+             glow={true} 
+          >
+            Match History
+          </GlassButton>
           </div>
         </motion.div>
 
@@ -88,28 +110,39 @@ const HomePage = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <MatchCard match={match} />
+                  <MatchCard match={match} glow={true} />
                 </motion.div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
-              <FaBaseballBall className="text-6xl text-gray-400 mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                No Live Matches
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Be the first to start a match!
-              </p>
-            </div>
+           <GlassWrapper
+            variant={isDarkMode ? 'card' : 'light'} 
+            rounded="2xl"
+            padding="py-12"
+            className="text-center"
+             glow
+  glowColor="rgba(179, 0, 255, 0.5)" 
+          >
+            <FaBaseballBall className="text-6xl text-gray-400 mx-auto mb-4" />
+            <h3 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              No Live Matches
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              Be the first to start a match!
+            </p>
+          </GlassWrapper>
           )}
         </div>
 
         {/* Features Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg text-center"
+          <motion.div whileHover={{ scale: 1.05 }}>
+            <GlassWrapper
+            variant={isDarkMode ? 'card' : 'light'}
+            rounded="2xl"
+            padding="p-6"
+            className="text-center"
+             glow={true} 
           >
             <div className="bg-cricket-green/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaBaseballBall className="text-3xl text-cricket-green" />
@@ -120,11 +153,18 @@ const HomePage = () => {
             <p className="text-gray-600 dark:text-gray-400">
               Scores update instantly for all viewers without page refresh
             </p>
+          </GlassWrapper>
           </motion.div>
 
           <motion.div 
             whileHover={{ scale: 1.05 }}
-            className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg text-center"
+          >
+            <GlassWrapper
+            variant={isDarkMode ? 'card' : 'light'}
+            rounded="2xl"
+            padding="p-6"
+            className="text-center"
+             glow={true} 
           >
             <div className="bg-cricket-blue/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaQrcode className="text-3xl text-cricket-blue" />
@@ -135,11 +175,17 @@ const HomePage = () => {
             <p className="text-gray-600 dark:text-gray-400">
               Share match via link or QR code. Anyone can join instantly
             </p>
+          </GlassWrapper>
           </motion.div>
 
           <motion.div 
-            whileHover={{ scale: 1.05 }}
-            className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg text-center"
+            whileHover={{ scale: 1.05 }}>
+            <GlassWrapper
+            variant={isDarkMode ? 'card' : 'light'}
+            rounded="2xl"
+            padding="p-6"
+            className="text-center"
+             glow={true} 
           >
             <div className="bg-cricket-red/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaEye className="text-3xl text-cricket-red" />
@@ -150,11 +196,12 @@ const HomePage = () => {
             <p className="text-gray-600 dark:text-gray-400">
               Watch matches live with detailed ball-by-ball commentary
             </p>
+          </GlassWrapper>
           </motion.div>
         </div>
       </div>
-    </div>
   );
 };
+
 
 export default HomePage;
