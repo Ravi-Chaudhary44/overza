@@ -490,15 +490,12 @@ const Profile = () => {
             </div>
           </div>
           
-          <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Need help? Contact support at support@Overza.com
-            </p>
-          </div>
+          
         </motion.div>
       </div>
     </div>
   );
 };
+
 
 export default Profile;
