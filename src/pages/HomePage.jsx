@@ -8,13 +8,13 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 import MatchCard from '../components/match/MatchCard';
 import GlassButton from '../components/common/GlassButton';
 import GlassWrapper from '../components/layout/GlassWrapper';
-
+import { useTheme } from '../context/ThemeContext';
 
 const HomePage = () => {
   const { user } = useAuth();
   const { liveMatches, getLiveMatches, isLoading } = useMatch();
   const navigate = useNavigate();
-
+const { isDarkMode } = useTheme();
   useEffect(() => {
     getLiveMatches();
   }, []);
@@ -205,3 +205,4 @@ const HomePage = () => {
 
 
 export default HomePage;
+
