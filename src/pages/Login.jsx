@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaBaseballBall, FaEnvelope, FaLock, FaExclamationTriangle } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
+import GlassButton from '../components/common/GlassButton';
+import GlassWrapper from '../components/layout/GlassWrapper';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -40,7 +42,8 @@ const Login = () => {
       
       if (result.success) {
      
-        navigate('/scorer');
+        navigate('/scorer', { replace: true });
+
       } else {
        
         const errorMsg = result.error || 'Login failed';
@@ -70,7 +73,7 @@ const Login = () => {
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8">
+       <GlassWrapper variant="card" rounded="3xl" padding="p-8" className="shadow-2xl">
           <div className="text-center mb-8">
             <motion.div
               initial={{ scale: 0 }}
@@ -156,12 +159,16 @@ const Login = () => {
               </div>
             </div>
 
-            <motion.button
-              type="submit"
-              disabled={isLoading}
-              whileTap={{ scale: 0.98 }}
-              className="w-full bg-cricket-green hover:bg-cricket-darkGreen text-white py-3 rounded-xl font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl"
-            >
+             <GlassButton
+  type="submit"
+  variant="primary"
+  size="lg"
+  fullWidth
+  disabled={isLoading}
+  className="bg-cricket-green hover:bg-cricket-darkGreen border-none shadow-lg"
+     glow
+  glowColor="rgba(9, 255, 0, 0.5)"  
+>
               {isLoading ? (
                 <>
                   <svg 
@@ -187,7 +194,7 @@ const Login = () => {
                   Signing in...
                 </>
               ) : 'Sign In'}
-            </motion.button>
+             </GlassButton>
           </form>
 
           <div className="mt-6 text-center">
@@ -201,11 +208,12 @@ const Login = () => {
               </Link>
             </p>
           </div>
-        </div>
+         </GlassWrapper>
       </motion.div>
     </div>
   );
 };
 
 export default Login;
+
 
