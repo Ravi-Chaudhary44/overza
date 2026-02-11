@@ -4,14 +4,15 @@ import Footer from './Footer';
 
 const Layout = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+       <div className="glass-background flex flex-col">
       <Navbar />
-      <main className="flex-grow pt-16">
+      <main className="flex-grow pt-24 container mx-auto px-4">
         {children}
       </main>
       <Footer />
     </div>
   );
 };
+
 
 export default Layout;
