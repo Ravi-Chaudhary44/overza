@@ -11,7 +11,8 @@ import RecentBalls from '../components/viewer/RecentBalls';
 import toast from 'react-hot-toast';
 import QRCode from 'qrcode.react';
 
-
+import GlassButton from '../components/common/GlassButton';
+import GlassWrapper from '../components/layout/GlassWrapper';
 const InningsScorecard = ({ match, viewingInnings }) => {
 
   const [activeTab, setActiveTab] = useState('batting');
@@ -29,7 +30,7 @@ const InningsScorecard = ({ match, viewingInnings }) => {
   
   if (!inningsStarted) {
     return (
-      <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-6">
+     <GlassWrapper variant="card" rounded="3xl" padding="p-6" className="shadow-2xl">
         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
           Scorecard - Innings {viewingInnings} ({currentInning.team || 'TBD'})
         </h3>
@@ -42,7 +43,7 @@ const InningsScorecard = ({ match, viewingInnings }) => {
             {match.status === 'completed' ? 'Match ended before this innings could be played' : 'Innings will begin soon'}
           </p>
         </div>
-      </div>
+     </GlassWrapper>
     );
   }
 
@@ -124,34 +125,32 @@ const InningsScorecard = ({ match, viewingInnings }) => {
   };
 
   return (
-    <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-6">
+     <GlassWrapper variant="card" rounded="3xl" padding="p-6" className="shadow-2xl">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
           Scorecard - Innings {viewingInnings} ({currentInning.team})
         </h3>
         <div className="flex space-x-2">
-          <button
-            onClick={() => setActiveTab('batting')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeTab === 'batting'
-                ? 'bg-cricket-green text-white'
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-            }`}
-          >
-            <FaUser className="inline mr-2" />
-            Batting
-          </button>
-          <button
-            onClick={() => setActiveTab('bowling')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeTab === 'bowling'
-                ? 'bg-cricket-green text-white'
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-            }`}
-          >
-            <FaUserShield className="inline mr-2" />
-            Bowling
-          </button>
+          <GlassButton
+  onClick={() => setActiveTab('batting')}
+  variant={activeTab === 'batting' ? 'primary' : 'outline'}
+  size="sm"
+  icon={FaUser}
+  iconPosition="left"
+  className={activeTab === 'batting' ? 'bg-cricket-green border-none' : ''}
+>
+  Batting
+</GlassButton>
+          <GlassButton
+  onClick={() => setActiveTab('bowling')}
+  variant={activeTab === 'bowling' ? 'primary' : 'outline'}
+  size="sm"
+  icon={FaUserShield}
+  iconPosition="left"
+  className={activeTab === 'bowling' ? 'bg-cricket-green border-none' : ''}
+>
+  Bowling
+</GlassButton>
         </div>
       </div>
 
@@ -475,7 +474,7 @@ const InningsScorecard = ({ match, viewingInnings }) => {
           </div>
         </>
       )}
-    </div>
+    </GlassWrapper>
   );
 };
 
@@ -552,12 +551,18 @@ const LiveMatchViewer = () => {
           <p className="text-gray-600 dark:text-gray-400 mb-6">
             This match doesn't exist or has ended
           </p>
-          <button
-            onClick={() => navigate('/')}
-            className="bg-cricket-green hover:bg-cricket-darkGreen text-white px-6 py-3 rounded-lg font-semibold"
-          >
-            Go Home
-          </button>
+         <div className="flex justify-center">
+  <GlassButton
+    onClick={() => navigate('/')}
+    variant="primary"
+    size="lg"
+    className="bg-cricket-green hover:bg-cricket-darkGreen border-none"
+     glow
+  glowColor="rgba(9, 255, 0, 0.5)" 
+  >
+    Go Home
+  </GlassButton>
+</div>
         </div>
       </div>
     );
@@ -569,12 +574,15 @@ const LiveMatchViewer = () => {
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            <button
-              onClick={() => navigate('/')}
-              className="flex items-center text-gray-700 dark:text-gray-300 hover:text-cricket-green dark:hover:text-cricket-green"
-            >
-              <FaHome className="mr-2" /> Home
-            </button>
+            <GlassButton
+  onClick={() => navigate('/')}
+  variant="outline"
+  size="sm"
+  icon={FaHome}
+  iconPosition="left"
+>
+  Home
+</GlassButton>
             
             <div className="text-center">
               <div className="flex items-center justify-center">
@@ -749,5 +757,6 @@ const LiveMatchViewer = () => {
     </div>
   );
 };
+
 
 export default LiveMatchViewer;
