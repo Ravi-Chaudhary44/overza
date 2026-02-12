@@ -5,13 +5,13 @@ const ThemeContext = createContext();
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const saved = localStorage.getItem('darkMode');
-    return saved ? JSON.parse(saved) : false;
-  });
-
+  // const [isDarkMode, setIsDarkMode] = useState(() => {
+  //   const saved = localStorage.getItem('darkMode');
+  //   return saved ? JSON.parse(saved) : false;
+  // });
+ const [isDarkMode, setIsDarkMode] = useState(true);
   useEffect(() => {
-    localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
+    // localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
     } else {
@@ -33,4 +33,5 @@ export const ThemeProvider = ({ children }) => {
       {children}
     </ThemeContext.Provider>
   );
+
 };
