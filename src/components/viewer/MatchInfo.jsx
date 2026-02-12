@@ -18,16 +18,25 @@ const MatchInfo = ({ match }) => {
   };
   
   const getDuration = () => {
-    if (!match.startTime) return 'Not started';
-    
-    const start = new Date(match.startTime);
-    const now = new Date();
-    const diffMs = now - start;
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-    
-    return `${diffHours}h ${diffMinutes}m`;
-  };
+  if (!match.startTime) return 'Not started';
+
+  const start = new Date(match.startTime);
+  
+ 
+  if (match.status === 'completed' && match.endTime) {
+    const end = new Date(match.endTime);
+    const diffMs = end - start;
+    const hours = Math.floor(diffMs / (1000 * 60 * 60));
+    const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}h ${minutes}m`;
+  }
+
+  
+  if (start > new Date()) return 'Scheduled';
+
+ 
+  return 'In progress';
+};
   
   const getMatchTypeLabel = () => {
     switch (match.matchType) {
@@ -154,3 +163,4 @@ const MatchInfo = ({ match }) => {
 
 
 export default MatchInfo;
+
