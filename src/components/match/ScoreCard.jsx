@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaUser, FaUserShield, FaExchangeAlt, FaTrophy, FaTimesCircle } from 'react-icons/fa';
+import GlassWrapper from '../layout/GlassWrapper';
+import GlassButton from '../common/GlassButton';
 
 export const ScoreCard = ({ 
   match, 
@@ -138,23 +140,33 @@ export const ScoreCard = ({
   const matchResult = getMatchResult();
 
   return (
-    <div className="relative">
+   <GlassWrapper
+    variant="card"
+    rounded="2xl"
+    padding="p-8"
+    glow
+    className="relative"
+  >
       {/* Match Status */}
       <div className="absolute top-4 right-4">
-        <span className={`px-4 py-2 rounded-full font-semibold text-sm ${
-          match.status === 'live' 
-            ? 'bg-red-500 text-white animate-pulse-slow' 
-            : match.status === 'completed'
-            ? 'bg-gray-500 text-white'
-            : 'bg-yellow-500 text-white'
-        }`}>
+        <span className={`
+  px-4 py-2 rounded-full font-semibold text-sm border backdrop-blur-md
+  ${match.status === 'live'
+    ? 'bg-red-500/20 text-red-400 border-red-400/40 animate-pulse'
+    : match.status === 'completed'
+    ? 'bg-gray-500/20 text-gray-300 border-gray-400/40'
+    : 'bg-yellow-500/20 text-yellow-300 border-yellow-400/40'
+  }
+`}>
+
           {match.status === 'live' ? '🔴 LIVE' : match.status === 'completed' ? '🏁 ENDED' : '⏳ UPCOMING'}
         </span>
       </div>
 
       {/* Match Result Banner for Completed Matches */}
       {isMatchEnded && matchResult && (
-        <div className="mb-6 bg-gradient-to-r from-green-500 to-green-600 dark:from-green-600 dark:to-green-700 text-white p-4 rounded-xl shadow-lg">
+        <div className="mb-6 glass-card border border-emerald-400/40 text-emerald-300 p-4 rounded-2xl shadow-[0_0_20px_rgba(16,185,129,0.25)]
+">
           <div className="flex items-center justify-center">
             <FaTrophy className="mr-3 text-yellow-300 text-xl" />
             <div className="text-center">
@@ -174,27 +186,21 @@ export const ScoreCard = ({
             const hasInningsStarted = inning && inning.battingLineup && inning.battingLineup.length > 0;
             
             return (
-              <button
-                key={inningsNum}
-                onClick={() => handleInningsChange(inningsNum)}
-                className={`flex items-center px-4 py-2 rounded-lg mx-1 transition-all ${
-                  isCurrentView
-                    ? 'bg-cricket-green text-white shadow-lg'
-                    : hasInningsStarted
-                    ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
-                    : 'bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-50'
-                }`}
-                disabled={!hasInningsStarted && isMatchEnded}
-                title={!hasInningsStarted && isMatchEnded ? "Innings was not required" : ""}
-              >
-                <span className="font-semibold">Innings {inningsNum}</span>
-                <span className="ml-2">
-                  ({inning?.team || 'TBD'})
-                </span>
-                {!hasInningsStarted && isMatchEnded && (
-                  <FaTimesCircle className="ml-2 text-sm" />
-                )}
-              </button>
+              <GlassButton
+  key={inningsNum}
+  onClick={() => handleInningsChange(inningsNum)}
+  size="sm"
+  variant={isCurrentView ? 'primary' : 'secondary'}
+  glow={isCurrentView}
+  className={`mx-1 ${!hasInningsStarted && isMatchEnded ? 'opacity-50 cursor-not-allowed' : ''}`}
+  disabled={!hasInningsStarted && isMatchEnded}
+>
+  Innings {inningsNum} ({inning?.team || 'TBD'})
+  {!hasInningsStarted && isMatchEnded && (
+    <FaTimesCircle className="ml-2 text-sm" />
+  )}
+</GlassButton>
+
             );
           })}
         </div>
@@ -246,19 +252,23 @@ export const ScoreCard = ({
       {!isMatchEnded && inningsHadPlay && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           {/* Striker */}
-          <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="glass-card p-4 rounded-2xl border border-white/10 hover:border-emerald-400/30 transition-all">
             <div className="flex justify-between items-start mb-3">
               <h4 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
                 <FaUser className="mr-2 text-green-600" />
                 Striker
               </h4>
               {onPlayerChange && viewingInnings === match.currentInnings && match.status === 'live' && (
-                <button
-                  onClick={() => onPlayerChange('striker')}
-                  className="text-xs bg-green-100 hover:bg-green-200 dark:bg-green-900/30 dark:hover:bg-green-900/50 text-green-800 dark:text-green-300 px-2 py-1 rounded flex items-center"
-                >
-                  <FaExchangeAlt className="mr-1" /> Change
-                </button>
+               <GlassButton
+  size="sm"
+  variant="secondary"
+  glow
+  onClick={() => onPlayerChange('striker')}
+  className="!text-xs"
+>
+  <FaExchangeAlt className="mr-1" /> Change
+</GlassButton>
+
               )}
             </div>
             {striker ? (
@@ -288,19 +298,23 @@ export const ScoreCard = ({
           </div>
 
           {/* Non-Striker */}
-          <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="glass-card p-4 rounded-2xl border border-white/10 hover:border-emerald-400/30 transition-all">
             <div className="flex justify-between items-start mb-3">
               <h4 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
                 <FaUser className="mr-2 text-blue-600" />
                 Non-Striker
               </h4>
               {onPlayerChange && viewingInnings === match.currentInnings && match.status === 'live' && (
-                <button
-                  onClick={() => onPlayerChange('nonStriker')}
-                  className="text-xs bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 text-blue-800 dark:text-blue-300 px-2 py-1 rounded flex items-center"
-                >
-                  <FaExchangeAlt className="mr-1" /> Change
-                </button>
+               <GlassButton
+  size="sm"
+  variant="secondary"
+  glow
+  onClick={() => onPlayerChange('nonstriker')}
+  className="!text-xs"
+>
+  <FaExchangeAlt className="mr-1" /> Change
+</GlassButton>
+
               )}
             </div>
             {nonStriker ? (
@@ -330,19 +344,23 @@ export const ScoreCard = ({
           </div>
 
           {/* Current Bowler */}
-          <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="glass-card p-4 rounded-2xl border border-white/10 hover:border-emerald-400/30 transition-all">
             <div className="flex justify-between items-start mb-3">
               <h4 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
                 <FaUserShield className="mr-2 text-red-600" />
                 Bowler
               </h4>
               {onPlayerChange && viewingInnings === match.currentInnings && match.status === 'live' && (
-                <button
-                  onClick={() => onPlayerChange('bowler')}
-                  className="text-xs bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-900/50 text-red-800 dark:text-red-300 px-2 py-1 rounded flex items-center"
-                >
-                  <FaExchangeAlt className="mr-1" /> Change
-                </button>
+               <GlassButton
+  size="sm"
+  variant="secondary"
+  glow
+  onClick={() => onPlayerChange('bowler')}
+  className="!text-xs"
+>
+  <FaExchangeAlt className="mr-1" /> Change
+</GlassButton>
+
               )}
             </div>
             {currentBowler ? (
@@ -382,15 +400,18 @@ export const ScoreCard = ({
 
       {/* Team Details */}
       <div className="grid grid-cols-2 gap-6 mb-8">
-        <div className={`p-6 rounded-2xl ${
-          viewedInning?.team === match.teamA.name
-            ? 'bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800'
-            : 'bg-gray-50 dark:bg-gray-800/50'
-        }`}>
+        <div className={`
+  p-6 rounded-2xl glass-card border
+  ${viewedInning?.team === match.teamA.name
+    ? 'border-emerald-400/50 shadow-[0_0_15px_rgba(16,185,129,0.25)]'
+    : 'border-white/10'
+  }
+`}
+>
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
             {match.teamA.name}
             {viewedInning?.team === match.teamA.name && inningsHadPlay && (
-              <span className="ml-2 text-sm bg-cricket-green text-white px-2 py-1 rounded">
+              <span className="ml-2 text-sm px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-400/30">
                 {isMatchEnded ? 'Batted' : 'Batting'}
               </span>
             )}
@@ -402,7 +423,8 @@ export const ScoreCard = ({
                 {match.teamA.players.map((player, index) => (
                   <span 
                     key={index} 
-                    className="text-xs bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded"
+                  className="text-xs glass-card border border-white/10 px-2 py-1 rounded-full"
+
                     title={player}
                   >
                     {player}
@@ -413,15 +435,18 @@ export const ScoreCard = ({
           )}
         </div>
 
-        <div className={`p-6 rounded-2xl ${
-          viewedInning?.team === match.teamB.name
-            ? 'bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800'
-            : 'bg-gray-50 dark:bg-gray-800/50'
-        }`}>
+        <div className={`
+  p-6 rounded-2xl glass-card border
+  ${viewedInning?.team === match.teamB.name
+    ? 'border-emerald-400/50 shadow-[0_0_15px_rgba(16,185,129,0.25)]'
+    : 'border-white/10'
+  }
+`}
+>
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
             {match.teamB.name}
             {viewedInning?.team === match.teamB.name && inningsHadPlay && (
-              <span className="ml-2 text-sm bg-cricket-green text-white px-2 py-1 rounded">
+              <span className="ml-2 text-sm px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-400/30">
                 {isMatchEnded ? 'Batted' : 'Batting'}
               </span>
             )}
@@ -433,7 +458,8 @@ export const ScoreCard = ({
                 {match.teamB.players.map((player, index) => (
                   <span 
                     key={index} 
-                    className="text-xs bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded"
+                    className="text-xs glass-card border border-white/10 px-2 py-1 rounded-full"
+
                     title={player}
                   >
                     {player}
@@ -447,7 +473,7 @@ export const ScoreCard = ({
      
       {/* Run Rate & Required Rate */}
       <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-xl text-center">
+        <div className="glass-card p-4 rounded-2xl text-center border border-white/10">
           <p className="text-gray-600 dark:text-gray-400 mb-1">Run Rate</p>
           <p className={`text-2xl font-bold ${
             isMatchEnded && !inningsHadPlay ? 'text-gray-500' : 'text-cricket-green'
@@ -458,7 +484,7 @@ export const ScoreCard = ({
 
       
         {match.status === 'live' && viewingInnings === 2 && rrr && rrr.runsNeeded > 0 && (
-          <div className="bg-white dark:bg-gray-800 p-4 rounded-xl text-center">
+          <div className="glass-card p-4 rounded-2xl text-center border border-white/10">
             <p className="text-gray-600 dark:text-gray-400 mb-1">
               Need {rrr.runsNeeded} runs
             </p>
@@ -471,26 +497,29 @@ export const ScoreCard = ({
 
       
       {inningsHadPlay && viewedInning?.extras && (
-        <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
+        <div className="mt-6 p-4 glass-card rounded-2xl border border-white/10">
           <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Extras</h4>
           <div className="flex flex-wrap gap-4">
             {viewedInning.extras.wides > 0 && (
-              <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 rounded-full">
+              <span className="px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-400/30">
                 Wides: {viewedInning.extras.wides}
               </span>
             )}
             {viewedInning.extras.noBalls > 0 && (
-              <span className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 rounded-full">
+              <span className="px-3 py-1 rounded-full bg-red-500/20 text-red-400 border border-red-400/30"
+>
                 No Balls: {viewedInning.extras.noBalls}
               </span>
             )}
             {viewedInning.extras.byes > 0 && (
-              <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full">
+              <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 border border-blue-400/30"
+>
                 Byes: {viewedInning.extras.byes}
               </span>
             )}
             {viewedInning.extras.legByes > 0 && (
-              <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded-full">
+              <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 border border-purple-400/30"
+>
                 Leg Byes: {viewedInning.extras.legByes}
               </span>
             )}
@@ -511,6 +540,8 @@ export const ScoreCard = ({
           </p>
         </div>
       )}
-    </div>
+   </GlassWrapper>
+
   );
+
 };
