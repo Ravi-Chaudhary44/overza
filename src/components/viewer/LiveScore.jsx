@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBaseballBall, FaSync } from 'react-icons/fa';
+import GlassWrapper from '../layout/GlassWrapper';
+import GlassButton from '../common/GlassButton';
+
 
 const LiveScore = ({ match, onRefresh }) => {
   const [score, setScore] = useState({ runs: 0, wickets: 0, overs: '0.0' });
@@ -63,14 +66,24 @@ const LiveScore = ({ match, onRefresh }) => {
   const rrr = getRequiredRunRate();
   
   return (
-    <div className="relative">
+   <GlassWrapper
+    variant="card"
+    rounded="2xl"
+    padding="p-8"
+    glow
+    className="relative"
+  >
       {/* Refresh Button */}
-      <button
-        onClick={handleRefresh}
-        disabled={isRefreshing}
-        className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors"
-        aria-label="Refresh"
-      >
+     <GlassButton
+  onClick={handleRefresh}
+  size="sm"
+  variant="secondary"
+  glow
+  className="absolute top-4 right-4 p-2 !rounded-full"
+>
+  <FaSync className={isRefreshing ? 'animate-spin' : ''} />
+</GlassButton>
+
         <FaSync className={`${isRefreshing ? 'animate-spin' : ''}`} />
       </button>
       
@@ -93,7 +106,7 @@ const LiveScore = ({ match, onRefresh }) => {
         </motion.div>
         
         {/* Run Rate */}
-        <div className="inline-block bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-full">
+        <div className="inline-block glass-card border border-white/10 px-4 py-2 rounded-full">
           <span className="text-gray-600 dark:text-gray-400 mr-2">Run Rate:</span>
           <span className="font-semibold text-cricket-green">{getRunRate()}</span>
         </div>
@@ -103,9 +116,10 @@ const LiveScore = ({ match, onRefresh }) => {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-4 inline-block bg-red-100 dark:bg-red-900/20 px-4 py-2 rounded-full"
+            className="mt-4 inline-block glass-card border border-red-500/30 px-4 py-2 rounded-full"
           >
-            <span className="text-red-700 dark:text-red-300 mr-2">
+            <span className="text-red-400 mr-2">
+
               Need {rrr.runsNeeded} runs in {((match.totalOvers * 6) - (match.innings[1]?.balls || 0))} balls
             </span>
             <span className="font-semibold text-red-600 dark:text-red-400">
@@ -118,18 +132,23 @@ const LiveScore = ({ match, onRefresh }) => {
       {/* Team Status */}
       {match && (
         <div className="grid grid-cols-2 gap-6 mb-8">
-          <div className={`p-4 rounded-xl ${
-            match.innings?.[match.currentInnings - 1]?.team === match.teamA.name
-              ? 'bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800'
-              : 'bg-gray-50 dark:bg-gray-800/50'
-          }`}>
+         <div className={`
+  p-4 rounded-2xl
+  glass-card
+  border
+  ${match.innings?.[match.currentInnings - 1]?.team === match.teamA.name
+    ? 'border-emerald-400/50 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
+    : 'border-white/10'
+  }
+`}>
+
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-gray-900 dark:text-white text-lg">
                   {match.teamA.name}
                 </h3>
                 {match.innings?.[match.currentInnings - 1]?.team === match.teamA.name && (
-                  <span className="inline-block mt-1 px-2 py-1 bg-cricket-green text-white text-xs rounded-full">
+                  <span className="inline-block mt-1 px-3 py-1 text-xs rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-400/30">
                     Batting
                   </span>
                 )}
@@ -138,18 +157,23 @@ const LiveScore = ({ match, onRefresh }) => {
             </div>
           </div>
           
-          <div className={`p-4 rounded-xl ${
-            match.innings?.[match.currentInnings - 1]?.team === match.teamB.name
-              ? 'bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800'
-              : 'bg-gray-50 dark:bg-gray-800/50'
-          }`}>
+          <div className={`
+  p-4 rounded-2xl
+  glass-card
+  border
+  ${match.innings?.[match.currentInnings - 1]?.team === match.teamB.name
+    ? 'border-emerald-400/50 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
+    : 'border-white/10'
+  }
+`}>
+
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-gray-900 dark:text-white text-lg">
                   {match.teamB.name}
                 </h3>
                 {match.innings?.[match.currentInnings - 1]?.team === match.teamB.name && (
-                  <span className="inline-block mt-1 px-2 py-1 bg-cricket-green text-white text-xs rounded-full">
+                  <span className="inline-block mt-1 px-3 py-1 text-xs rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-400/30">
                     Batting
                   </span>
                 )}
@@ -164,8 +188,10 @@ const LiveScore = ({ match, onRefresh }) => {
       <div className="text-center text-sm text-gray-500 dark:text-gray-400">
         Last updated: {lastUpdate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
       </div>
-    </div>
+  </GlassWrapper>
+
   );
 };
+
 
 export default LiveScore;
