@@ -89,13 +89,13 @@ const RunningNavMessage = () => {
               <FaHome className="text-lg" />
               <span>Home</span>
             </Link>
-            <Link
+            {/* <Link
               to="/live"
               className="text-gray-700 dark:text-gray-300 hover:text-cricket-green dark:hover:text-cricket-green font-medium transition-colors flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/50"
             >
               <FaEye className="text-lg" />
               <span>Live Matches</span>
-            </Link>
+            </Link> */}
             <Link
               to="/history"
               className="text-gray-700 dark:text-gray-300 hover:text-cricket-green dark:hover:text-cricket-green font-medium transition-colors flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/50"
@@ -209,13 +209,13 @@ const RunningNavMessage = () => {
               >
                 <FaHome className="mr-3" /> Home
               </Link>
-              <Link
+              {/* <Link
                 to="/live"
                 onClick={() => setIsMenuOpen(false)}
                 className="flex items-center text-gray-700 dark:text-gray-300 hover:text-cricket-green py-2 px-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 <FaEye className="mr-3" /> Live Matches
-              </Link>
+              </Link> */}
               <Link
                 to="/history"
                 onClick={() => setIsMenuOpen(false)}
@@ -287,5 +287,6 @@ const RunningNavMessage = () => {
     </nav>
   );
 };
+
 
 export default Navbar;
