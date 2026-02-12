@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaCalendar, FaMapMarkerAlt, FaTrophy, FaUsers, FaClock, FaBaseballBall } from 'react-icons/fa';
+import GlassWrapper from '../layout/GlassWrapper';
 
 const MatchInfo = ({ match }) => {
   if (!match) return null;
@@ -68,14 +69,31 @@ const MatchInfo = ({ match }) => {
   ];
   
   return (
-    <div className="space-y-6">
+    <GlassWrapper
+    variant="card"
+    rounded="2xl"
+    padding="p-6"
+    glow
+    className="space-y-6"
+  >
       <h3 className="text-xl font-bold text-gray-900 dark:text-white">Match Information</h3>
       
       <div className="space-y-4">
         {infoItems.map((item, index) => (
-          <div key={index} className="flex items-start">
+          <div
+  key={index}
+  className="
+    flex items-start
+    glass-card
+    border border-white/10
+    rounded-xl
+    p-3
+  "
+>
+
             <div className="flex-shrink-0 mr-3">
-              <item.icon className="text-gray-400 mt-1" />
+<item.icon className="text-cyan-400 mt-1" />
+
             </div>
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">{item.label}</p>
@@ -89,7 +107,7 @@ const MatchInfo = ({ match }) => {
       <div>
         <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Teams</h4>
         <div className="space-y-3">
-          <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
+          <div className="glass-card border border-white/10 rounded-xl p-4">
             <div className="flex justify-between items-center">
               <span className="font-medium text-gray-900 dark:text-white">{match.teamA.name}</span>
               <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -104,7 +122,7 @@ const MatchInfo = ({ match }) => {
             )}
           </div>
           
-          <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
+          <div className="glass-card border border-white/10 rounded-xl p-4">
             <div className="flex justify-between items-center">
               <span className="font-medium text-gray-900 dark:text-white">{match.teamB.name}</span>
               <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -122,12 +140,17 @@ const MatchInfo = ({ match }) => {
       </div>
       
       {/* Match ID */}
-      <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+      <div className="pt-4 border-t border-white/10">
         <p className="text-sm text-gray-600 dark:text-gray-400">Match ID</p>
-        <p className="font-mono font-bold text-cricket-green text-sm">{match.matchId}</p>
+      <p className="font-mono font-bold text-cyan-400 text-sm tracking-wide">
+  {match.matchId}
+</p>
+
       </div>
-    </div>
+  </GlassWrapper>
+
   );
 };
+
 
 export default MatchInfo;
