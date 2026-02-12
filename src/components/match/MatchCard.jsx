@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaBaseballBall, FaEye, FaUsers, FaMapMarkerAlt } from 'react-icons/fa';
+import GlassButton from '../common/GlassButton';
 
 const MatchCard = ({ match,glow = false  }) => {
   if (!match) return null;
@@ -16,28 +17,37 @@ const MatchCard = ({ match,glow = false  }) => {
   return (
     <motion.div
       whileHover={{ y: -5 }}
-      className={`bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300  ${glowClasses}  `}
+      className={`
+  glass-card rounded-2xl overflow-hidden
+  border border-white/10
+  backdrop-blur-xl
+  hover:border-emerald-400/40
+  hover:shadow-[0_0_25px_rgba(16,185,129,0.25)]
+  transition-all duration-300
+  ${glow ? 'shadow-[0_0_20px_rgba(255,111,97,0.25)] border-coral-bright/40' : ''}
+`}
+
     >
       {/* Match Status Badge */}
       <div className="px-4 pt-4">
         <div className="flex justify-between items-start">
           <div>
             {isLive ? (
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-500/20 text-red-400 border border-red-400/40 backdrop-blur-md">
                 <span className="w-2 h-2 bg-red-500 rounded-full mr-2 animate-pulse"></span>
                 LIVE
               </span>
             ) : isCompleted ? (
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-500/20 text-gray-300 border border-gray-400/30 backdrop-blur-md">
                 COMPLETED
               </span>
             ) : (
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-500/20 text-yellow-400 border border-yellow-400/40 backdrop-blur-md">
                 UPCOMING
               </span>
             )}
           </div>
-          <div className="text-xs text-gray-500 dark:text-gray-400">
+          <div className="text-xs text-gray-400">
             {new Date(match.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </div>
         </div>
@@ -47,11 +57,12 @@ const MatchCard = ({ match,glow = false  }) => {
       <div className="p-4">
         <div className="flex items-center justify-between mb-4">
           <div className="text-center flex-1">
-            <h3 className="font-bold text-lg text-gray-900 dark:text-white truncate">
+            <h3 className="font-bold text-lg text-white
+ truncate">
               {match.teamA.name}
             </h3>
             {match.teamA.players && match.teamA.players.length > 0 && (
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-xs text-gray-400 mt-1">
                 {match.teamA.players.length} players
               </p>
             )}
@@ -60,11 +71,12 @@ const MatchCard = ({ match,glow = false  }) => {
           <div className="mx-4 text-gray-400">vs</div>
           
           <div className="text-center flex-1">
-            <h3 className="font-bold text-lg text-gray-900 dark:text-white truncate">
+            <h3 className="font-bold text-lg text-white
+ truncate">
               {match.teamB.name}
             </h3>
             {match.teamB.players && match.teamB.players.length > 0 && (
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-xs text-gray-400 mt-1">
                 {match.teamB.players.length} players
               </p>
             )}
@@ -73,14 +85,14 @@ const MatchCard = ({ match,glow = false  }) => {
         
         {/* Score Display */}
         {isLive && (
-          <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-4 text-center">
+          <div className="glass-card rounded-2xl p-4 mb-4 text-center border border-white/10">
             <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
               {currentScore.runs}/{currentScore.wickets}
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400">
               Overs: {currentScore.oversFormatted}
             </div>
-            <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+            <div className="mt-2 text-xs text-gray-400">
               {match.innings?.[match.currentInnings - 1]?.team} batting
             </div>
           </div>
@@ -98,7 +110,8 @@ const MatchCard = ({ match,glow = false  }) => {
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-lg font-bold text-gray-900 dark:text-white">
+                <div className="text-lg font-bold text-white
+">
                   {match.innings[1]?.runs}/{match.innings[1]?.wickets}
                 </div>
                 <div className="text-xs text-gray-600 dark:text-gray-400">
@@ -115,7 +128,7 @@ const MatchCard = ({ match,glow = false  }) => {
         )}
         
         {/* Match Details */}
-        <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+        <div className="space-y-2 text-sm text-gray-400">
           {match.venue && (
             <div className="flex items-center">
               <FaMapMarkerAlt className="mr-2" />
@@ -138,14 +151,17 @@ const MatchCard = ({ match,glow = false  }) => {
       </div>
       
       {/* Action Button */}
-      <div className="border-t border-gray-200 dark:border-gray-700 p-4">
-        <Link
-          to={`/live/${match.matchId}`}
-          className="flex items-center justify-center w-full bg-cricket-green hover:bg-cricket-darkGreen text-white py-2 rounded-lg font-semibold transition-colors"
-        >
-          <FaEye className="mr-2" />
-          {isLive ? 'Watch Live' : 'View Details'}
-        </Link>
+      <div className="border-t border-white/10 p-4">
+       <GlassButton
+  to={`/live/${match.matchId}`}
+  variant="primary"
+  glow={isLive}
+  className="w-full justify-center"
+>
+  <FaEye className="mr-2" />
+  {isLive ? 'Watch Live' : 'View Details'}
+</GlassButton>
+
       </div>
     </motion.div>
   );
@@ -153,3 +169,4 @@ const MatchCard = ({ match,glow = false  }) => {
 
 
 export default MatchCard;
+
