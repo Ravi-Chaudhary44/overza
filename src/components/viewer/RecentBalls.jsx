@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBaseballBall, FaHistory } from 'react-icons/fa';
+import GlassWrapper from '../layout/GlassWrapper';
+import GlassButton from '../common/GlassButton';
 
 const RecentBalls = ({ match, viewingInnings }) => {
   const [recentBalls, setRecentBalls] = useState([]);
@@ -21,15 +23,16 @@ const RecentBalls = ({ match, viewingInnings }) => {
     }
   }, [match, currentViewingInnings]); 
   
-  const getBallColor = (ball) => {
-    if (ball.isWicket) return 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300';
-    if (ball.runs >= 4) return 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300';
-    if (ball.runs > 0) return 'bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300';
-    if (ball.extras && Object.values(ball.extras).some(v => v > 0)) {
-      return 'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300';
-    }
-    return 'bg-gray-100 dark:bg-gray-700/50 text-gray-700 dark:text-gray-400';
-  };
+ const getBallColor = (ball) => {
+  if (ball.isWicket) return 'text-red-500';
+  if (ball.runs >= 4) return 'text-emerald-400';
+  if (ball.runs > 0) return 'text-cyan-400';
+  if (ball.extras && Object.values(ball.extras).some(v => v > 0)) {
+    return 'text-yellow-400';
+  }
+  return 'text-gray-400';
+};
+
   
   const getBallDisplay = (ball) => {
     if (ball.isWicket) return 'W';
@@ -57,7 +60,12 @@ const RecentBalls = ({ match, viewingInnings }) => {
   };
   
   return (
-    <div>
+    <GlassWrapper
+    variant="card"
+    rounded="2xl"
+    padding="p-6"
+    glow
+  >
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
@@ -71,12 +79,16 @@ const RecentBalls = ({ match, viewingInnings }) => {
           </p>
         </div>
         {recentBalls.length > 6 && (
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="text-sm text-cricket-green hover:text-cricket-darkGreen font-medium"
-          >
-            {showAll ? 'Show Less' : 'Show All'}
-          </button>
+          <GlassButton
+  onClick={() => setShowAll(!showAll)}
+  size="sm"
+  variant="secondary"
+  glow
+  className="px-3 py-1"
+>
+  {showAll ? 'Show Less' : 'Show All'}
+</GlassButton>
+
         )}
       </div>
       
@@ -95,7 +107,7 @@ const RecentBalls = ({ match, viewingInnings }) => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ delay: index * 0.05 }}
-                className={`flex items-center justify-between p-3 rounded-lg ${getBallColor(ball)}`}
+                className={`   flex items-center justify-between   p-3 rounded-xl   glass-card   border border-white/10   ${getBallColor(ball)} `}
               >
                 <div className="flex items-center">
                   <div className="w-8 h-8 flex items-center justify-center bg-white dark:bg-gray-800 rounded-full mr-3">
@@ -170,8 +182,10 @@ const RecentBalls = ({ match, viewingInnings }) => {
           </div>
         </div>
       )}
-    </div>
+  </GlassWrapper>
+
   );
 };
+
 
 export default RecentBalls;
