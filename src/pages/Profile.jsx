@@ -19,6 +19,9 @@ import { useMatch } from '../context/MatchContext';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import GlassWrapper from '../components/layout/GlassWrapper';
+import GlassButton from '../components/common/GlassButton';
+
 
 const Profile = () => {
   const { user, logout } = useAuth();
@@ -158,7 +161,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
@@ -172,24 +175,27 @@ const Profile = () => {
                 <FaUser className="text-3xl text-cricket-green" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Profile</h1>
+                <h1 className="text-4xl font-bold text-white">Profile</h1>
 
               </div>
             </div>
             
             <div className="flex space-x-3">
-              <button
-                onClick={() => navigate('/history')}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
-              >
-                <FaHistory className="inline mr-2" /> History
-              </button>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50"
-              >
-                Logout
-              </button>
+            <GlassButton
+  onClick={() => navigate('/history')}
+  variant="outline"
+  size="sm"
+>
+  <FaHistory className="mr-2" /> History
+</GlassButton>
+
+              <GlassButton
+  onClick={handleLogout}
+  className="!text-red-400 hover:!text-red-300"
+>
+  Logout
+</GlassButton>
+
             </div>
           </div>
         </motion.div>
@@ -202,38 +208,36 @@ const Profile = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.1 }}
-              className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8"
             >
+              <GlassWrapper className="rounded-3xl p-8 border border-white/10">
+
               <div className="flex justify-between items-start mb-6">
                 <div className="flex items-center">
                   <div className="w-20 h-20 bg-cricket-green/10 rounded-full flex items-center justify-center mr-4">
                     <FaUser className="text-3xl text-cricket-green" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    <h2 className="text-2xl font-bold text-white">
                       {profile?.username}
                     </h2>
                     
                   </div>
                 </div>
-                <button
-                  onClick={handleEditToggle}
-                  className={`px-4 py-2 rounded-lg font-semibold flex items-center ${
-                    isEditing 
-                      ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400'
-                      : 'bg-cricket-green hover:bg-cricket-darkGreen text-white'
-                  }`}
-                >
-                  {isEditing ? (
-                    <>
-                      <FaTimes className="mr-2" /> Cancel
-                    </>
-                  ) : (
-                    <>
-                      <FaEdit className="mr-2" /> Edit Profile
-                    </>
-                  )}
-                </button>
+                <GlassButton
+  onClick={handleEditToggle}
+  variant={isEditing ? "outline" : "primary"}
+>
+  {isEditing ? (
+    <>
+      <FaTimes className="mr-2" /> Cancel
+    </>
+  ) : (
+    <>
+      <FaEdit className="mr-2" /> Edit Profile
+    </>
+  )}
+</GlassButton>
+
               </div>
 
               <div className="space-y-6">
@@ -245,17 +249,17 @@ const Profile = () => {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Email Address</p>
+                    <p className="text-sm text-gray-400">Email Address</p>
                     {isEditing ? (
                       <input
                         type="email"
                         name="email"
                         value={editForm.email}
                         onChange={handleInputChange}
-                        className="w-full mt-1 px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg"
+                        className="w-full mt-1 px-3 py-2 bg-white/5 border border-white/10 backdrop-blur-md text-white rounded-lg"
                       />
                     ) : (
-                      <p className="text-lg font-medium text-gray-900 dark:text-white">{profile?.email}</p>
+                      <p className="text-lg font-medium text-white">{profile?.email}</p>
                     )}
                   </div>
                 </div>
@@ -268,7 +272,7 @@ const Profile = () => {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Phone Number</p>
+                    <p className="text-sm text-gray-400">Phone Number</p>
                     {isEditing ? (
                       <input
                         type="tel"
@@ -276,10 +280,10 @@ const Profile = () => {
                         value={editForm.phone}
                         onChange={handleInputChange}
                         placeholder="+91 9876******"
-                        className="w-full mt-1 px-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg"
+                        className="w-full mt-1 px-3 py-2 bg-white/5 border border-white/10 backdrop-blur-md text-white rounded-lg"
                       />
                     ) : (
-                      <p className="text-lg font-medium text-gray-900 dark:text-white">
+                      <p className="text-lg font-medium text-white">
                         {profile?.phone || 'Not provided'}
                       </p>
                     )}
@@ -294,8 +298,8 @@ const Profile = () => {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Member Since</p>
-                    <p className="text-lg font-medium text-gray-900 dark:text-white">
+                    <p className="text-sm text-gray-400">Member Since</p>
+                    <p className="text-lg font-medium text-white">
                       {formatDate(profile?.createdAt)}
                     </p>
                   </div>
@@ -325,6 +329,7 @@ const Profile = () => {
                   </div>
                 )}
               </div>
+              </GlassWrapper>
             </motion.div>
 
             Recent Matches
@@ -332,9 +337,11 @@ const Profile = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8"
+             
             >
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+              <GlassWrapper className="rounded-3xl p-8 border border-white/10">
+
+              <h3 className="text-xl font-bold text-white mb-6 flex items-center">
                 <FaHistory className="mr-3 text-cricket-green" /> Recent Matches
               </h3>
               
@@ -343,13 +350,13 @@ const Profile = () => {
                   {recentMatches.slice(0, 5).map((match) => (
                     <div
                       key={match._id}
-                      className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all"
                     >
                       <div>
-                        <h4 className="font-semibold text-gray-900 dark:text-white">
+                        <h4 className="font-semibold text-white">
                           {match.teamA.name} vs {match.teamB.name}
                         </h4>
-                        <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        <div className="flex items-center text-sm text-gray-400 mt-1">
                           <FaCalendarAlt className="mr-2" />
                           {formatDate(match.startTime)}
                           <span className="mx-2">•</span>
@@ -374,15 +381,19 @@ const Profile = () => {
               ) : (
                 <div className="text-center py-8">
                   <FaBaseballBall className="text-4xl text-gray-400 mx-auto mb-3" />
-                  <p className="text-gray-600 dark:text-gray-400">No matches scored yet</p>
-                  <button
-                    onClick={() => navigate('/scorer')}
-                    className="mt-4 px-4 py-2 bg-cricket-green hover:bg-cricket-darkGreen text-white rounded-lg"
-                  >
-                    Start Your First Match
-                  </button>
+                  <p className="text-gray-400">No matches scored yet</p>
+                  <GlassButton
+  onClick={() => navigate('/scorer')}
+  variant="primary"
+  size="sm"
+  className="mt-4 inline-flex w-auto"
+>
+  Start Your First Match
+</GlassButton>
+
                 </div>
               )}
+              </GlassWrapper>
             </motion.div>
           </div>
 
@@ -393,11 +404,12 @@ const Profile = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8"
+           
             >
+              <GlassWrapper className="rounded-3xl p-8 border border-white/10">
+
               
-              
-              
+              </GlassWrapper>
             </motion.div>
 
             {/* Quick Actions */}
@@ -405,9 +417,11 @@ const Profile = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
-              className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8"
+             
             >
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Quick Actions</h3>
+              <GlassWrapper className="rounded-3xl p-8 border border-white/10">
+
+              <h3 className="text-xl font-bold text-white mb-6">Quick Actions</h3>
               
               <div className="space-y-3">
                 <button
@@ -419,8 +433,8 @@ const Profile = () => {
                       <FaBaseballBall className="text-white" />
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900 dark:text-white">Start New Match</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Begin scoring a new match</p>
+                      <p className="font-semibold text-white">Start New Match</p>
+                      <p className="text-sm text-gray-400">Begin scoring a new match</p>
                     </div>
                   </div>
                 </button>
@@ -434,8 +448,8 @@ const Profile = () => {
                       <div className="w-2 h-2 bg-white rounded-full"></div>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900 dark:text-white">Watch Live Matches</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">View ongoing matches</p>
+                      <p className="font-semibold text-white">Watch Live Matches</p>
+                      <p className="text-sm text-gray-400">View ongoing matches</p>
                     </div>
                   </div>
                 </button>
@@ -449,12 +463,13 @@ const Profile = () => {
                       <FaHistory className="text-white" />
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900 dark:text-white">Match History</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">View past matches</p>
+                      <p className="font-semibold text-white">Match History</p>
+                      <p className="text-sm text-gray-400">View past matches</p>
                     </div>
                   </div>
                 </button>
               </div>
+              </GlassWrapper>
             </motion.div>
           </div>
         </div>
@@ -466,19 +481,19 @@ const Profile = () => {
           transition={{ delay: 0.5 }}
           className="mt-8 bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8"
         >
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Account Information</h3>
+          <h3 className="text-xl font-bold text-white mb-6">Account Information</h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Scorer ID</h4>
-              <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl">
+              <h4 className="font-semibold text-white mb-3">Scorer ID</h4>
+              <div className="bg-white/5 border border-white/10 p-4 rounded-xl">
                 <code className="font-mono text-cricket-green">{profile?._id}</code>
               </div>
             </div>
             
             <div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Account Type</h4>
-              <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl">
+              <h4 className="font-semibold text-white mb-3">Account Type</h4>
+              <div className="bg-white/5 border border-white/10 p-4 rounded-xl">
                 <span className={`px-3 py-1 rounded-full ${
                   profile?.isAdmin 
                     ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400'
@@ -499,3 +514,4 @@ const Profile = () => {
 
 
 export default Profile;
+
