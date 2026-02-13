@@ -187,18 +187,18 @@ export const OverDisplay = ({ match, viewingInnings = null, detailed = false }) 
       {/* Innings Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
         <div>
-          <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
+          <h4 className="text-lg sm:text-xl font-bold text-white">
             Innings {inningToShow} - {currentInning.team}
           </h4>
           {isLiveInnings && (
-            <span className="inline-block mt-1 px-2 py-1 bg-red-500 text-white text-xs rounded-full animate-pulse">
+            <span className="inline-block mt-1 px-2 py-1 bg-red-500/20 text-red-400 border border-red-400/40 backdrop-blur-md text-xs rounded-full animate-pulse">
               🔴 LIVE
             </span>
           )}
         </div>
         <div className="text-left sm:text-right">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Score</p>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">
+          <p className="text-sm text-gray-400">Score</p>
+          <p className="text-2xl font-bold text-white">
             {currentInning.runs || 0}/{currentInning.wickets || 0}
           </p>
         </div>
@@ -206,8 +206,8 @@ export const OverDisplay = ({ match, viewingInnings = null, detailed = false }) 
 
       
       {isLiveInnings && (
-        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl">
-          <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3">
+        <div className="glass-card p-4 rounded-2xl border border-white/10">
+          <h4 className="text-base sm:text-lg font-semibold text-white mb-3">
             Current Over: {completedOvers}.{currentOverBalls}
           </h4>
           <div className="flex items-center space-x-2">
@@ -226,9 +226,9 @@ export const OverDisplay = ({ match, viewingInnings = null, detailed = false }) 
       )}
 
       {/* Detailed Over View */}
-      <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 sm:p-6">
+      <div className="glass-card rounded-2xl p-4 sm:p-6 border border-white/10">
         <div className="flex justify-between items-center mb-4">
-          <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+          <h4 className="text-base sm:text-lg font-semibold text-white">
             Over-by-Over Progress
           </h4>
           <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -250,25 +250,27 @@ export const OverDisplay = ({ match, viewingInnings = null, detailed = false }) 
                   <div
                     key={overNumber}
                     className={`min-w-[120px] p-3 rounded-xl border-2 flex-shrink-0 ${
-                      isCurrentOver
-                        ? 'border-cricket-green bg-green-50 dark:bg-green-900/20'
-                        : isCompleted
-                        ? 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800'
-                        : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/30'
+                    isCurrentOver
+  ? 'border-emerald-400/60 bg-emerald-500/10 shadow-[0_0_20px_rgba(16,185,129,0.25)]'
+  : isCompleted
+  ? 'border-white/20 bg-white/5'
+  : 'border-white/10 bg-white/5 opacity-60'
+
                     }`}
                   >
                     <div className="flex justify-between items-center mb-2">
                       <span className={`font-bold ${
                         isCurrentOver
-                          ? 'text-cricket-green'
-                          : isCompleted
-                          ? 'text-gray-900 dark:text-white'
-                          : 'text-gray-500 dark:text-gray-400'
+  ? 'text-emerald-400'
+  : isCompleted
+  ? 'text-white'
+  : 'text-gray-500'
+
                       }`}>
                         {overNumber}
                       </span>
                       {isCompleted && (
-                        <span className="text-xs font-medium text-gray-900 dark:text-white">
+                        <span className="text-xs font-medium text-white">
                           {overRuns}{wicketsInOver > 0 ? `/${wicketsInOver}` : ''}
                         </span>
                       )}
@@ -280,7 +282,7 @@ export const OverDisplay = ({ match, viewingInnings = null, detailed = false }) 
                           return (
                             <div
                               key={ballIndex}
-                              className="h-8 flex items-center justify-center rounded bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 text-sm font-medium"
+                              className="h-8 flex items-center justify-center rounded bg-white/10 text-gray-500 text-sm font-medium"
                             >
                               •
                             </div>
@@ -302,7 +304,7 @@ export const OverDisplay = ({ match, viewingInnings = null, detailed = false }) 
                     
                     {isCompleted && (
                       <div className="mt-2 text-center">
-                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                        <div className="text-xs text-gray-500">
                           {overRuns === 0 ? 'Maiden' : 'runs'}
                         </div>
                       </div>
@@ -330,24 +332,26 @@ export const OverDisplay = ({ match, viewingInnings = null, detailed = false }) 
                 key={overNumber}
                 className={`p-3 rounded-xl border-2 ${
                   isCurrentOver
-                    ? 'border-cricket-green bg-green-50 dark:bg-green-900/20'
-                    : isCompleted
-                    ? 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800'
-                    : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/30'
+  ? 'border-emerald-400/60 bg-emerald-500/10 shadow-[0_0_20px_rgba(16,185,129,0.25)]'
+  : isCompleted
+  ? 'border-white/20 bg-white/5'
+  : 'border-white/10 bg-white/5 opacity-60'
+
                 }`}
               >
                 <div className="flex justify-between items-center mb-2">
                   <span className={`font-bold ${
                     isCurrentOver
-                      ? 'text-cricket-green'
-                      : isCompleted
-                      ? 'text-gray-900 dark:text-white'
-                      : 'text-gray-500 dark:text-gray-400'
+  ? 'text-emerald-400'
+  : isCompleted
+  ? 'text-white'
+  : 'text-gray-500'
+
                   }`}>
                     {overNumber}
                   </span>
                   {isCompleted && (
-                    <span className="text-xs font-medium text-gray-900 dark:text-white">
+                    <span className="text-xs font-medium text-white">
                       {overRuns}{wicketsInOver > 0 ? `/${wicketsInOver}` : ''}
                     </span>
                   )}
@@ -359,7 +363,7 @@ export const OverDisplay = ({ match, viewingInnings = null, detailed = false }) 
                       return (
                         <div
                           key={ballIndex}
-                          className="h-8 flex items-center justify-center rounded bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 text-sm font-medium"
+                          className="h-8 flex items-center justify-center rounded bg-white/10 text-gray-500 text-sm font-medium"
                         >
                           •
                         </div>
@@ -381,7 +385,7 @@ export const OverDisplay = ({ match, viewingInnings = null, detailed = false }) 
                 
                 {isCompleted && (
                   <div className="mt-2 text-center">
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                    <div className="text-xs text-gray-500">
                       {overRuns === 0 ? 'Maiden' : 'runs'}
                     </div>
                   </div>
@@ -394,66 +398,66 @@ export const OverDisplay = ({ match, viewingInnings = null, detailed = false }) 
 
       {/* Over Summary */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-4 sm:gap-4">
-        <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-xl text-center">
-          <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Deliveries Bowled</p>
-          <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{balls}</p>
+        <div className="glass-card border border-white/10 p-3 sm:p-4 rounded-xl text-center">
+          <p className="text-gray-400 text-xs sm:text-sm">Deliveries Bowled</p>
+          <p className="text-xl sm:text-2xl font-bold text-white">{balls}</p>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-xl text-center">
-          <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Overs Completed</p>
-          <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+        <div className="glass-card border border-white/10 p-3 sm:p-4 rounded-xl text-center">
+          <p className="text-gray-400 text-xs sm:text-sm">Overs Completed</p>
+          <p className="text-xl sm:text-2xl font-bold text-white">
             {completedOvers}.{currentOverBalls}
           </p>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-xl text-center">
-          <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Overs Remaining</p>
-          <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+        <div className="glass-card border border-white/10 p-3 sm:p-4 rounded-xl text-center">
+          <p className="text-gray-400 text-xs sm:text-sm">Overs Remaining</p>
+          <p className="text-xl sm:text-2xl font-bold text-white">
             {oversRemaining}.{remainingBalls}
           </p>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-xl text-center">
-          <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Deliveries Remaining</p>
-          <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+        <div className="glass-card border border-white/10 p-3 sm:p-4 rounded-xl text-center">
+          <p className="text-gray-400 text-xs sm:text-sm">Deliveries Remaining</p>
+          <p className="text-xl sm:text-2xl font-bold text-white">
             {ballsRemaining}
           </p>
         </div>
       </div>
 
       {/* Innings Summary */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6">
-        <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <div className="glass-card border border-white/10 rounded-2xl p-4 sm:p-6">
+        <h4 className="text-base sm:text-lg font-semibold text-white mb-4">
           Innings Summary
         </h4>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
           <div className="text-center">
-            <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Total Runs</p>
+            <p className="text-gray-400 text-xs sm:text-sm">Total Runs</p>
             <p className="text-xl sm:text-2xl font-bold text-cricket-green">{summary.totalRuns}</p>
           </div>
           <div className="text-center">
-            <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Wickets</p>
+            <p className="text-gray-400 text-xs sm:text-sm">Wickets</p>
             <p className="text-xl sm:text-2xl font-bold text-red-500">{summary.totalWickets}</p>
           </div>
           <div className="text-center">
-            <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Extras</p>
+            <p className="text-gray-400 text-xs sm:text-sm">Extras</p>
             <p className="text-xl sm:text-2xl font-bold text-yellow-500">{summary.totalExtras}</p>
           </div>
           <div className="text-center">
-            <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Maiden Overs</p>
+            <p className="text-gray-400 text-xs sm:text-sm">Maiden Overs</p>
             <p className="text-xl sm:text-2xl font-bold text-blue-500">{summary.maidenOvers}</p>
           </div>
         </div>
         
         {/* Run Rate */}
-        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="mt-4 pt-4 border-t border-white/10">
           <div className="flex flex-col sm:flex-row items-center justify-between">
             <div className="text-center sm:text-left mb-2 sm:mb-0">
-              <p className="text-gray-600 dark:text-gray-400 text-sm">Run Rate</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <p className="text-gray-400 text-sm">Run Rate</p>
+              <p className="text-2xl font-bold text-white">
                 {balls > 0 ? ((currentInning.runs || 0) / (balls / 6)).toFixed(2) : '0.00'}
               </p>
             </div>
             <div className="text-center sm:text-right">
-              <p className="text-gray-600 dark:text-gray-400 text-sm">Projected Score</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <p className="text-gray-400 text-sm">Projected Score</p>
+              <p className="text-2xl font-bold text-white">
                 {balls > 0 
                   ? Math.round((currentInning.runs || 0) / balls * totalOvers * 6)
                   : 0}
@@ -465,3 +469,4 @@ export const OverDisplay = ({ match, viewingInnings = null, detailed = false }) 
     </div>
   );
 };
+
