@@ -9,7 +9,7 @@ import MatchCard from '../components/match/MatchCard';
 import GlassButton from '../components/common/GlassButton';
 import GlassWrapper from '../components/layout/GlassWrapper';
 import { useTheme } from '../context/ThemeContext';
-
+import { Helmet } from 'react-helmet'; 
 const HomePage = () => {
   const { user } = useAuth();
   const { liveMatches, getLiveMatches, isLoading } = useMatch();
@@ -21,6 +21,37 @@ const { isDarkMode } = useTheme();
 
   return (
       <div className="container mx-auto px-4 py-8">
+        <Helmet>
+        <title>OverZa - Live Gully Cricket Scores</title>
+        <meta
+          name="description"
+          content="OverZa provides live gully cricket scores, match history, and player stats for cricket enthusiasts. Real-time updates, zero refresh needed."
+        />
+        <meta
+          name="keywords"
+          content="OverZa, gully cricket, live cricket scores, cricket match, cricket stats, real-time scoring"
+        />
+        <meta name="robots" content="index, follow" />
+
+        {/* Open Graph / Social Preview */}
+        <meta property="og:title" content="OverZa - Live Gully Cricket Scores" />
+        <meta
+          property="og:description"
+          content="Track live gully cricket matches with OverZa, your cricket companion."
+        />
+        <meta property="og:image" content="https://overza.vercel.app/assets/images/og-image.png" />
+        <meta property="og:url" content="https://overza.vercel.app/" />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter / X Preview */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="OverZa - Live Gully Cricket Scores" />
+        <meta
+          name="twitter:description"
+          content="Follow live gully cricket matches with OverZa. Real-time scoring and match updates."
+        />
+        <meta name="twitter:image" content="https://overza.vercel.app/assets/images/og-image.png" />
+      </Helmet>
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -205,4 +236,5 @@ const { isDarkMode } = useTheme();
 
 
 export default HomePage;
+
 
